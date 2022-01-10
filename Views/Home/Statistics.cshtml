@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Moldovan_Andrea_SADE_Proiect.Models.CafeViewModels.InvoiceGroup>
+@{
+    ViewData["Title"] = "Invoiced Coffees Statistics";
+}
+<h2>Invoiced Coffees Statistics</h2>
+<table>
+    <tr>
+        <th>
+            Invoice Date
+        </th>
+        <th>
+            Invoiced Coffees
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvoiceDate)
+            </td>
+            <td>
+                @item.CoffeeCount
+            </td>
+        </tr>
+    }
+</table>

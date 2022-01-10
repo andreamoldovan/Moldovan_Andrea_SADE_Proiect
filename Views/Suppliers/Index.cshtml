@@ -1,0 +1,123 @@
+﻿@model Moldovan_Andrea_SADE_Proiect.Models.CafeViewModels.SupplierIndexData
+@{
+    ViewData["Title"] = "Suppliers";
+}
+<h2>Suppliers</h2>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Supplier Name</th>
+            <th>Address</th>
+            <th>Coffees</th>
+            <th>Tastes</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Suppliers)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["SupplierID"])
+            {
+                selectedRow = "success";
+            }
+        <tr class="@selectedRow">
+            <td>
+                @Html.DisplayFor(modelItem => item.SupplierName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+
+
+            <td>
+                @{
+                    foreach (var coffee in item.SuppliedCoffees)
+                    {
+                        @coffee.Coffee.ID @: @coffee.Coffee.Name <br />
+                    }
+                }
+            </td>
+            <td>
+                @{
+                    foreach (var coffee in item.SuppliedCoffees)
+                    {
+                        @coffee.Coffee.Taste <br />
+                    }
+                }
+            </td>
+            <td>
+                <a asp-action="Index" asp-route-id="@item.ID">Select</a> |
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.Coffees != null)
+{
+    <h3>Coffees Supplied by Selected Supplier</h3>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Taste</th>
+            <th>Weight</th>
+            <th>Price</th>
+        </tr>
+        @foreach (var item in Model.Coffees)
+        {
+            string selectedRow = "";
+            if (item.ID == (int?)ViewData["CoffeeID"])
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.ActionLink("Select", "Index", new { coffeeID = item.ID })
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Taste
+                </td>
+                <td>
+                    @item.Weight
+                </td>
+                <td>
+                    @item.Price
+                </td>
+            </tr>
+        }
+    </table>
+}
+@if (Model.Invoices != null)
+{
+    <h3>
+        Customers that have bought the Selected Coffees
+    </h3>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Invoice Date</th>
+        </tr>
+        @foreach (var item in Model.Invoices)
+        {
+            <tr>
+                <td>
+                    @item.Customer.Name
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceDate)
+                </td>
+            </tr>
+        }
+    </table>
+}
